@@ -4,9 +4,10 @@
 
 
 class Stack(object):
-    def __init__(self, n):
-        self.stack = [object() for i in range(0, n)]
-        self.length = n
+    def __init__(self, length):
+        object.__init__(self)
+        self.stack = [object() for index in range(0, length)]
+        self.length = length
         self.__top__ = 0
 
     # pop函数,出栈操作,删除栈顶元素
