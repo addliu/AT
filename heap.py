@@ -126,7 +126,7 @@ class Heap(object):
 
 # 模块测试
 if __name__ == '__main__':
-    l = [7, 4, 3, 1, 2]
+    l = [7, 4, 3, 1, 2, 9, 10, 54, 32, 44, 65]
     h = Heap(l)
     h.show()
     h.heap_sort()
