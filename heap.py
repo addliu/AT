@@ -37,7 +37,7 @@ class Heap(object):
         """
         return i+1 << 1
 
-    def max_heapify(self, i):
+    def max_heapify(self, i=0):
         """
         将i节点的子树大根堆化，维护堆的性质
         :param i : 未排序子树根节点的下标
@@ -121,6 +121,42 @@ class Heap(object):
         else:
             self.search(values, self.left(index))
             self.search(values, self.right(index))
+
+    # 优先队列
+    def heap_maximum():
+    	"""
+    	返回堆中具有最大关键字的元素
+    	:return: 堆首元素
+    	"""
+    	return self.heap[0]
+
+    def heap_extract_max():
+    	"""
+    	去掉并返回具有最大关键字的元素
+    	:return : 具有最大关键字的元素
+    	"""
+    	if self.heap_size < 1:
+    		print("heap underflow")
+    	max = self.heap_maximum()
+    	self.heap[0] = self.heap[self.heap_size-1]
+    	self.heap_size = self.heap_size - 1
+    	self.max_heapify(0)
+    	return max
+
+    def heap_increase_key(index, key):
+    	"""
+		将下标为 index 的元素的值增加到 key 
+    	:param index: 待增加元素的下标
+		:param key: 该元素需要增加到多少
+		:return : None
+    	"""
+    	if key < self.heap[index]:
+    		print("new key is smaller than current key.")
+    	else:
+    		self.heap[index] = key
+    		while (index >= 0 and self.heap[self.parent(index)] < self.heap[index]):
+    			self.heap[self.parent(index)], self.heap[index] = self.heap[index], self.heap[self.parent(index)]
+    			index = self.parent[index]
 
 
 
