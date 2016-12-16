@@ -3,11 +3,14 @@
 
 
 class Heap(object):
+
+    _MIN = -100000000
+
     def __init__(self, value=list()):
         self.heap_size = len(value)
         self.heap = value
         self.build_max_heap(self.heap)
-        
+
     def parent(self, i):
         """
         求下表为i的节点的父节点
@@ -123,41 +126,50 @@ class Heap(object):
             self.search(values, self.right(index))
 
     # 优先队列
-    def heap_maximum():
-    	"""
-    	返回堆中具有最大关键字的元素
-    	:return: 堆首元素
-    	"""
-    	return self.heap[0]
+    def heap_maximum(self):
+        """
+        返回堆中具有最大关键字的元素
+        :return: 堆首元素
+        """
+        return self.heap[0]
 
-    def heap_extract_max():
-    	"""
-    	去掉并返回具有最大关键字的元素
-    	:return : 具有最大关键字的元素
-    	"""
-    	if self.heap_size < 1:
-    		print("heap underflow")
-    	max = self.heap_maximum()
-    	self.heap[0] = self.heap[self.heap_size-1]
-    	self.heap_size = self.heap_size - 1
-    	self.max_heapify(0)
-    	return max
+    def heap_extract_max(self):
+        """
+        去掉并返回具有最大关键字的元素
+        :return : 具有最大关键字的元素
+        """
+        if self.heap_size < 1:
+            print("heap underflow")
+        max = self.heap_maximum()
+        self.heap[0] = self.heap[self.heap_size-1]
+        self.heap_size -= 1
+        self.max_heapify(0)
+        return max
 
-    def heap_increase_key(index, key):
-    	"""
-		将下标为 index 的元素的值增加到 key 
-    	:param index: 待增加元素的下标
-		:param key: 该元素需要增加到多少
-		:return : None
-    	"""
-    	if key < self.heap[index]:
-    		print("new key is smaller than current key.")
-    	else:
-    		self.heap[index] = key
-    		while (index >= 0 and self.heap[self.parent(index)] < self.heap[index]):
-    			self.heap[self.parent(index)], self.heap[index] = self.heap[index], self.heap[self.parent(index)]
-    			index = self.parent[index]
+    def heap_increase_key(self, index, key):
+        """
+        将下标为 index 的元素的值增加到 key
+        :param index: 待增加元素的下标
+        :param key: 该元素需要增加到多少
+        :return : None
+        """
+        if key < self.heap[index]:
+            print("new key is smaller than current key.")
+        else:
+            self.heap[index] = key
+            while index >= 0 and self.heap[self.parent(index)] < self.heap[index]:
+                self.heap[self.parent(index)], self.heap[index] = self.heap[index], self.heap[self.parent(index)]
+                index = self.parent[index]
 
+    def max_heap_insert(self, key):
+        """
+        实现insert操作
+        :param key: 待插入的的值
+        :return: None
+        """
+        self.heap_size += 1
+        self.heap[self.heap_size] = self._MIN
+        self.heap_increase_key(self.heap_size, key)
 
 
 # 模块测试
