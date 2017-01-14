@@ -7,6 +7,7 @@
 class BinarySearchTree:
     def __init__(self, root=None):
         self.root = root
+        self.size = 0 if root is None else 1
 
     def inorder_tree_walk(self, node):
         """
@@ -16,7 +17,7 @@ class BinarySearchTree:
         """
         if node is not None:
             self.inorder_tree_walk(node.left)
-            print(node.value, end=", ")
+            print(node.value, end="  ")
             self.inorder_tree_walk(node.right)
 
     def tree_search(self, value):
@@ -70,6 +71,7 @@ class BinarySearchTree:
             temp.left = node
         else:
             temp.right = node
+        self.size += 1
         return node
 
     def tree_successor(self, node):
@@ -92,13 +94,33 @@ class BinarySearchTree:
             y = y.parent
         return y
 
-    def transplant(self, v, u):
-        """移动子树"""
-        pass
+    def transplant(self, o, n):
+        """用一颗子树替换另一颗子树"""
+        if o.parent is None:
+            self.root = n
+        elif o == o.parent.left:
+            o.parent.left = n
+        else:
+            o.parent.right = n
+        if n is None:
+            n.parent = o.parent
 
-    def tree_delete(self, value):
+    def tree_delete(self, node):
         """二叉树的删除节点操作"""
-        pass
+        if node.left is None:
+            self.transplant(node, node.right)
+        elif node.right is None:
+            self.transplant(node, node.left)
+        else:
+            y = self.tree_minimum(node.right)
+            if y.parent is not node:
+                self.transplant(y, y.right)
+                y.right = node.right
+                y.right.parent = y
+            self.transplant(node, y)
+            y.left = node.left
+            y.left.parent = node
+        self.size -= 1
 
 
 class TreeNode:
@@ -118,4 +140,7 @@ if __name__ == '__main__':
     assert tree.tree_minimum(tree.root).value == 0
     assert tree.tree_predecessor(tree.tree_search(50)).value == 48
     assert tree.tree_successor(tree.tree_search(50)).value == 52
+    node = tree.tree_search(4)
+    tree.tree_delete(node)
+    assert tree.size == 51
     tree.inorder_tree_walk(tree.root)
